@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {{ action }} {{ object.name }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ action }} {{ object.name }}</h1>
+
+    <form method="post">
+        {{ form }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">{{ action }} категорию</button>
+    </form>
+
+    <a href="{% url 'category_list' %}" class="btn btn-outline-success">Обратно к списку категорий</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    Все товары
+{% endblock %}
+{% block content %}
+
+    {% if request.user.is_staff%}
+        <a href="{% url 'create_supplier_page' %}" class="btn btn-outline-success">Добавить поставщика</a>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            {% for obj in list %}
+                <div class="col-4">
+                    <div class="card" style="width: 18rem;">
+                        {% if obj.image %}
+                        <img src="{{ obj.image.url }}" class="card-img-top" alt="...">
+                        {% else %}
+                        <img src="{% static 'shop/image/98094191.jpg' %}" class="card-img-top" alt="...">
+                        {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ obj.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary"> Категория: {{ obj.category.name }}</h6>
+                        <p class="card-text">{{ obj.description }}</p>
+                        <p class="card-text">Цена: {{ obj.price }}</p>
+                        <a href="{% url 'detail_page' obj.pk %}" class=" btn btn-primary">Подробнее</a>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

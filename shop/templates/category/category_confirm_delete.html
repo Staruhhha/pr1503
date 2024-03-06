@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Удаление {{ object.name }}
+{% endblock %}
+
+{% block content %}
+    <h1>Вы действительно хотите удалить категорию: {{ object.name }}?</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить категорию</button>
+    </form>
+
+    <a href="{% url 'category_list' %}" class="btn btn-outline-success">Обратно к списку категорий</a>
+{% endblock %}

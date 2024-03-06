@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Отправка сообщения
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    <a href="{% url 'home_page' %}" class="btn btn-info">На домашнюю страницу</a>
+{% endblock %}

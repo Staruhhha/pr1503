@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Подробнее о {{ object.name }}
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'category_list' %}" class="btn btn-outline-success">Обратно к списку категорий</a>
+    <h1>{{ object.name }}</h1>
+    <p>{{ object.description }}</p>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    {{ obj.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <div class="container">
+                <h1>Название: {{ obj.name }}</h1>
+                <p>Описание: {{ obj.description }}</p>
+                <h3>Цена: {{ obj.price }}</h3>
+            </div>
+        </div>
+        <div class="col-3">
+            {% if obj.image %}
+                <img src="{{ obj.image.url }}" class="card-img-top" alt="...">
+            {% else %}
+                <img src="{% static 'shop/image/98094191.jpg' %}" class="card-img-top" alt="...">
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <h2>Категория</h2>
+            <a href="#">{{ obj.category.name }}</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <h3>Теги:</h3>
+            {% for tag in obj.tag.all %}
+                {{ tag.name }}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <h3>Характеристики</h3>
+        {% for param in obj.pos_parameter_set.all %}
+            <div class="col-4">{{ param.parameter }} : {{ param.value }}</div>
+        {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+        <p><input type="submit" class="btn btn-success" value="Купить"></p>
+    {% endif %}
+    {% if request.user.is_staff %}
+        <div class="row">
+            <h1>Заказы, в которых участвовал товар</h1>
+            {% for order in obj.order_set.all %}
+                Номер заказа: {{ order.pk }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row">
+        <h2>Поставки:</h2>
+        {% for supply in obj.supply_set.all %}
+            <ul>
+                <li>{{ supply }}</li>
+            </ul>
+        {% endfor %}
+    </div>
+    <p><a href="{% url 'home_page' %}">На стартовую страницу</a></p>
+</div>
+{% endblock %}

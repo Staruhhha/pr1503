@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    Заказ №{{ order.pk }}
+{% endblock %}
+
+{% block content %}
+    <h3>{{ order.customer_surname }}</h3>
+    <h3>{{ order.customer_name }}</h3>
+    <h3>{{ order.customer_patronymic }}</h3>
+    <h3>Сумма заказа: {{ sum_price }}</h3>
+{% endblock %}

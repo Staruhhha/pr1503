@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title_block %}
+    Домашняя страница
+{% endblock %}
+
+{% block content %}
+    {% if perms.shop.add_product %}
+        <h4>Можешь добавлять товар</h4>
+    {% endif %}
+    {% if perms.shop.add_product and perms.shop.change_product %}
+        <h4>Можешь добавлять и редактировать товар</h4>
+    {% endif %}
+    {% if perms.shop.change_delivery_type %}
+        <h4>Можешь редактировать способ доставки</h4>
+    {% endif %}
+{% endblock %}

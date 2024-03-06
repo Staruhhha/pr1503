@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'category_create' %}" class="btn btn-outline-success">Добавить категорию</a>
+    {% for category in categories %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ category.name }}</h5>
+                <div class="card-body">
+                    <a href="{% url 'category_detail' category.pk %}" class="btn btn-outline-dark">Подробнее</a>
+                    <a href="{% url 'category_update' category.pk %}" class="btn btn-outline-secondary">Изменить</a>
+                    <a href="{% url 'category_delete' category.pk %}" class="btn btn-outline-danger">Удалить (с подтверждением)</a>
+                    <form method="post" action="{% url 'category_delete' category.pk %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger">Удалить (сразу)</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{# Пагинация #}
+
+{% block additional_content %}
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% for p in paginator.page_range %}
+                    {% if p == page_obj.number %}
+                        <li class="page-item"><a class="page-link active">{{ p }}</a></li>
+                    {% elif p >= page_obj.number|add:"-1" and p <= page_obj.number|add:"2" %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% else %}
+                        {% if p == 1 %}
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                            <li class="page-item"><a class="page-link">...</a></li>
+                        {% elif p == paginator.num_pages %}
+                            <li class="page-item"><a class="page-link">...</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
